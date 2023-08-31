@@ -143,10 +143,12 @@ const typeHandlers = {
     }
   },
   F(value) {
-    return parseFloat(value);
+    value = parseFloat(value);
+    return value === value ? value : null;
   },
   N(value) {
-    return parseFloat(value);
+    value = parseFloat(value);
+    return value === value ? value : null;
   },
   C(value) {
     return value.replace(/[\u0000 ]+$/, '');
@@ -271,7 +273,7 @@ function parseHeaderField(fieldBytes, val, i) {
 
   // extract the field length from the 16th byte
   const length = field.readUInt8(16);
-  if (length === 255) {
+  if (length > 255) {
     throw new Error('Field length must be less than 255');
   }
 
